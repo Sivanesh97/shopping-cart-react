@@ -1,28 +1,29 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, BrowserRouter } from "react-router-dom";
+import Login from './components/Login'
+import Shop from './components/Shop'
+import Navbar from './components/Navbar'
+import Common from './Common'
 
 class App extends Component {
+  constructor() {
+     super()    
+
+     console.log(Common)
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <BrowserRouter>
+            <div className="App">
+                <Route exact path='/' component={Shop} ></Route>
+                <Route path='/signin' component={Login} />
+                {/* <Route path='/signup' component={SignUp} /> */}
+            </div>
+        </BrowserRouter>
+
     );
   }
 }
 
 export default App;
+
