@@ -26,6 +26,42 @@ class Fetch {
         else return false
     }
 
+    static async getCartProducts() {
+        console.log('GET CART PRODUCTS')
+        let res = await fetch(`http://localhost:5000/Shopping-Cart-API/api/customer/cart/${Common.username}`)
+        let json = await res.json()
+        
+        console.log(json)
+
+        let obj = this.cleanFormatCartProducts(json)
+        console.log('Prefetched from Cart', obj)
+        return obj
+    }
+
+    static async deleteCartProduct(id) {
+        let res = await fetch(`http://localhost:5000/Shopping-Cart-API/api/customer/products/${Common.username}/${id}`, {
+            method: 'DELETE',
+        })
+        
+        if (res == 'true') {
+            console.log('DELETED FROM CART SUCCESSFULLY')
+            return true
+        } else {
+            console.log('DELETION FAILS')
+            return false
+        }
+    }
+
+    static cleanFormatCartProducts(json) {
+        let obj = json.map(item => {
+            let product = item.products
+            product.totalPrice = item.totalPrice
+            product.company = item.company
+            return product
+        })
+        return obj
+    }
+
     static cleanFormatProducts(json) {
         let obj = json.map(item => {
             let product = item.products
@@ -34,6 +70,7 @@ class Fetch {
         })
         return obj
     }
+
 }
 
 export default Fetch

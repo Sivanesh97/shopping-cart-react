@@ -1,5 +1,6 @@
 import React from 'react'
 import Common from '../Common'
+import Fetch from '../Fetch'
 
 class CartProduct extends React.Component {
     constructor(props) {
@@ -21,17 +22,7 @@ class CartProduct extends React.Component {
 
     productRemoveDB() {
         console.log(`${Common.username}/${this.state.id}`)
-        fetch(`http://localhost:5000/Shopping-Cart-API/api/customer/products/${Common.username}/${this.state.id}`, 
-            {
-                method: 'DELETE',
-            }
-        ).then(res => {
-            if(res == 'true') {
-                console.log('DELETED FROM CART SUCCESSFULLY')
-            } else {
-                console.log('DELETION FAILS')
-            }
-        })
+        Fetch.deleteCartProduct(this.state.id)
     }
 
     render() {

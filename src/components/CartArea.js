@@ -1,6 +1,7 @@
 import React from 'react'
 import CartProduct from './CartProduct'
 import Common from '../Common'
+import Fetch from '../Fetch';
 
 class CartArea extends React.Component {
     constructor() {
@@ -11,32 +12,38 @@ class CartArea extends React.Component {
         }
 
         this.fetchAlreadyPresentCart()
-
     }
 
-    fetchAlreadyPresentCart() {
-        fetch(`http://localhost:5000/Shopping-Cart-API/api/customer/cart/${Common.username}`)
-            .then(res => res.json())
-            .then(json => {
-                let obj = this.clearFormat(json)
-                console.log('Prefetched from Cart', obj)
-                this.setState(
-                    {products: obj}
-                )
-                this.props.updateCartCount(this.state.products.length)
-            }
-        )
-    }
+    async fetchAlreadyPresentCart() {
 
-    clearFormat(json) {
-        let obj = json.map(item => {
-            let product = item.products
-            product.totalPrice = item.totalPrice
-            product.company = item.company
-            return product
+        let cartProducts = await Fetch.getCartProducts()
+        await this.setState({
+            products: cartProducts
         })
-        return obj
+        this.props.updateCartCount(this.state.products.length)  
+
+        // fetch(`http://localhost:5000/Shopping-Cart-API/api/customer/cart/${Common.username}`)
+        //     .then(res => res.json())
+        //     .then(json => {
+        //         let obj = this.clearFormat(json)
+        //         console.log('Prefetched from Cart', obj)
+                // this.setState(
+                //     {products: obj}
+                // )
+        //         this.props.updateCartCount(this.state.products.length)
+        //     }
+        // )
     }
+
+    // clearFormat(json) {
+    //     let obj = json.map(item => {
+    //         let product = item.products
+    //         product.totalPrice = item.totalPrice
+    //         product.company = item.company
+    //         return product
+    //     })
+    //     return obj
+    // }
 
     update() {
         this.fetchAlreadyPresentCart()
