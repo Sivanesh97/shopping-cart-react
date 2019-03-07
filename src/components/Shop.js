@@ -4,8 +4,10 @@ import SideNav from './Sidenav'
 import Product from './Product'
 import Common from '../Common'
 import Header from './Header'
-import LoginRequest from './gateways/LoginRequest'
 import Fetch from '../Fetch'
+import SplitPage from './Split-page';
+import { ToastContainer } from "react-toastify"
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 class Shop extends React.Component {
     constructor() {
@@ -14,73 +16,109 @@ class Shop extends React.Component {
             username: '',
             loading: true,
             products: [],
-            category: 'All Products'
+            category: 'All Products',
+            isUpdated: false,
+            offset: 0,
+            limit: 20,
+            hasMore: true,
+            minPrice: undefined,
+            maxPrice: undefined,
         }
     }
 
     async componentDidMount() {
-
-        let products = await Fetch.getProducts()
-        console.log("Shop > componentDidMount: Fetching Products from Fetch class", products)
-        this.setState({loading: false, products: products})
-        console.log('Runs')
-        document.querySelector('#productsDiv').addEventListener('click', event => {
-            if(event.target.className.split(" ")[0] == 'btn') {
-                console.log(event.target.parentNode.children[1].textContent)
-                this.addToCart(event.target.parentNode.children[1].textContent)
-            }
-        })
-    }
-
-    addToCart(id) {
-        let index =  this.state.products.findIndex(product => {
-            if(id == product.id) return product
-        })
-
-        this.addToCartDB(this.state.products[index])
-        // this.addToCartUI()
-    }
-    
-    addToCartDB(obj) {
-        console.log(`Add to Cart DB`)
-        if(Fetch.addToCart(obj.id)) {
-            console.log('Updated Cart DB')
-            this.addToCartUI(obj)
-        } else {
-            console.log("Already present")
+        if(Common.user.username !== '') {
+            this.fetcher()
         }
-       
+
+
     }
-    
-    addToCartUI(obj) {
-        this.refs.child.cartCount()
-        this.refs.child.dataSender(obj)
-        console.log('Updated CartArea UI')
+
+    fetcher = async () => {
+        let length = this.state.products.length
+        let { offset, limit, category, minPrice, maxPrice, sortBy } = this.state
+        let products 
+        console.log("Ender ", this.state.category)
+        products = await Fetch.getCategoryProducts(offset, limit, category, minPrice, maxPrice, sortBy)
+        console.log(products)
+        console.log("Shop > componentDidMount: Fetching Products from Fetch class", products)
+        await this.setState(prevState => ({loading: false, products: prevState.products.concat(products), offset: prevState.offset + limit + 1}))
+        console.log('Runs')
+        if(length === this.state.products.length) {
+            this.setState({hasMore: false})
+        }
+    }
+
+    updateUI = (product) => {
+        console.log("[SHOP] WORKS UI Passing", product)
+        this.refs.navChild.update()
+    }
+
+    fetchCategoryProducts = async (category, minPrice, maxPrice, sortBy) => {
+        await this.setState({products: [], 
+            hasMore: true, 
+            offset: 0, 
+            category: category, 
+            loading: true, 
+            minPrice: minPrice, 
+            maxPrice: maxPrice, 
+            sortBy: sortBy})
+        console.log(this.state)
+        this.fetcher()
     }
     
     render() {
         if(this.state == null) {
+            console.error('Shop: State is NULL')
             return null        
-        } else if(Common.username == '') {
-            return (<LoginRequest />)
-        }
+        } else if(Common.user.username === '') {
+            console.debug('Shop: No username is present')
+            return (<SplitPage />)
+        } 
+
         return (
             <div id="shop">
                 <Header category={this.state.category} />
-                <Navbar ref="child"/>
-                <SideNav />
-                <h1>Shop</h1>
-                <div className="col-12 col-md-8 col-lg-9">
-                    <div className="shop_grid_product_area">
-                        <div className="row" id="productsDiv">
-
-                {this.state.loading ? <h1>Loading...</h1>: this.state.products.map(item => 
-                    <Product key={item.id} id={item.id} name={item.name} quantity={item.quantity} img={item.img}
-                        price={item.price} saledCount={item.saledCount} rating={item.rating} company={item.company} />)}
+                <Navbar ref="navChild" history={this.props.history} />
+                <section className="shop_grid_area section-padding-80">
+                    <div className="container">
+                        <div className="row">
+                            <SideNav updateProducts={this.fetchCategoryProducts} />
+                                <div className="col-12 col-md-8 col-lg-9">
+                                    <h1>Shop</h1>
+                                    <div className="shop_grid_product_area">
+                                        <InfiniteScroll
+                                            dataLength={this.state.products.length}
+                                            next={this.fetcher}
+                                            hasMore={this.state.hasMore}
+                                            loader={<h3>Loading ...</h3>}
+                                            endMessage={<h3>No More Products <span role="img" aria-label="emoji">💔</span></h3>}
+                                        >
+                                            <div className="row" id="productsDiv">
+                                                {this.state.loading ? <h1>Loading...</h1>: this.state.products.map((item, index) => 
+                                                    <Product key={index} 
+                                                        updateUI={this.updateUI}
+                                                        id={item.id} 
+                                                        name={item.name} 
+                                                        quantity={item.quantity} 
+                                                        img={item.img} 
+                                                        price={item.price} 
+                                                        saledCount={item.saledCount} 
+                                                        rating={item.rating} 
+                                                        company={item.company}
+                                                        favourite={this.isFavourite}    
+                                                    />)
+                                                }
+                                            </div>
+                                        </InfiniteScroll>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </section>
+                <ToastContainer />
+
                 </div>
-            </div>
         )
     }
 }

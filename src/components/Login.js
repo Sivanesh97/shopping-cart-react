@@ -1,5 +1,7 @@
 import React from "react"
 import Common from "../Common"
+import { Link } from "react-router-dom"
+import { toast } from "react-toastify";
 
  export default class Login extends React.Component{
 
@@ -26,11 +28,9 @@ import Common from "../Common"
 
      validate() {
          console.log('works')
-         console.log(this.state)
-
          console.log(JSON.stringify(this.state))
 
-         fetch('http://localhost:5000/Shopping-Cart-API/api/customer/signin/', {
+         fetch('http://sivanesh-pt2774:5000/Shopping-Cart-API/api/customer/sign-in/', {
              method: 'post',
              headers: {
                  'Accept': 'application/json, text/plain, */*',
@@ -39,10 +39,13 @@ import Common from "../Common"
              body: JSON.stringify(this.state)
          }).then(res => res.json())
              .then(res => {
-                 if(res) {
-                    Common.username = this.state.username
+                 console.log(res)
+                 if(res !== -1) {
+                    Common.user.username = this.state.username
+                    Common.user.id = res
                     this.props.history.push("/")
                  } else {
+                     toast.error("Incorrect username or password")
                      console.log("Wrong Credentials")
                  }
              });
@@ -51,13 +54,13 @@ import Common from "../Common"
     render() {
         return (
             <div className="App">
+                <Link to={{pathname: '/sign-up', state: {person: 'user'}}} className="btn essence-btn" id="sign-up-sender">Sign Up</Link>
                 <div className="checkout_details_area mt-50 clearfix" id="login-box">
 
                     <div className="cart-page-heading mb-30">
                         <h5>Login</h5>
                     </div>
 
-                    <form action="#" method="post">
                         <div className="row">
                             <div className="col-md-6 mb-3">
                                 <label htmlFor="first_name">User Name <span>*</span></label>
@@ -69,11 +72,8 @@ import Common from "../Common"
                                 <input type="password" className="form-control" id="last_name" required
                                     value={this.state.password.bin} onChange={this.updatePassword.bind(this)} />
                             </div>
-
-                            <a className="btn essence-btn" id="sign-in-button" onClick={this.validate.bind(this)}>Login</a>
+                            <button className="btn essence-btn" id="sign-in-button" onClick={this.validate.bind(this)}>Login</button>
                         </div>
-
-                    </form>
                 </div>
             </div> 
         )

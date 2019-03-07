@@ -5,5 +5,11 @@ function User(object) {
 }
 
 let user = new User({username: '', id: 0})
+let vendor = new User({username: '', id: 0})
 
-export default user
+let state = {
+    user,
+    vendor
+}
+
+export default state

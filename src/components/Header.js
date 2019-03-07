@@ -1,10 +1,6 @@
 import React from 'react'
 
 class Header extends React.Component {
-    constructor() {
-        super()
-    }
-
     render() {
         return (
             <div className="breadcumb_area bg-img" style={{backgroundImage:  "url(img/bg-img/breadcumb.jpg)"}}>

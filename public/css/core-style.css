@@ -354,9 +354,10 @@ img {
         .header_area .search-area form button {
           left: 10px;
           height: 40px; } }
+  .header_area .favourite-area span,
   .header_area .favourite-area a,
-  .header_area .user-login-info a,
-  .header_area .cart-area a {
+  .header_area .user-login-info span,
+  .header_area .cart-area span {
     position: relative;
     z-index: 1;
     -webkit-box-flex: 0;
@@ -369,31 +370,37 @@ img {
     height: 100%;
     line-height: 80px; }
     @media only screen and (max-width: 767px) {
+      .header_area .favourite-area span,
       .header_area .favourite-area a,
-      .header_area .user-login-info a,
-      .header_area .cart-area a {
+      .header_area .user-login-info span,
+      .header_area .cart-area span {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 50px;
         flex: 0 0 50px;
         width: 50px;
         line-height: 40px; } }
+    .header_area .favourite-area span img,
     .header_area .favourite-area a img,
-    .header_area .user-login-info a img,
-    .header_area .cart-area a img {
+    .header_area .user-login-info span img,
+    .header_area .cart-area span img {
       max-width: 20px; }
+    .header_area .favourite-area span span,
     .header_area .favourite-area a span,
-    .header_area .user-login-info a span,
-    .header_area .cart-area a span {
+    .header_area .user-login-info span span,
+    .header_area .cart-area span span {
       font-family: "Ubuntu", sans-serif;
       font-size: 18px;
       color: #0315ff;
       font-weight: 700;
       position: absolute;
-      top: -10px; }
+      top: -10px;
+      right: -10px;
+    }
       @media only screen and (max-width: 767px) {
+        .header_area .favourite-area span span,
         .header_area .favourite-area a span,
-        .header_area .user-login-info a span,
-        .header_area .cart-area a span {
+        .header_area .user-login-info span span,
+        .header_area .cart-area span span {
           font-size: 14px; } }
   .header_area.sticky {
     position: fixed;
@@ -440,7 +447,7 @@ img {
       right: -550px; } }
   .right-side-cart-area.cart-on {
     right: 0; }
-  .right-side-cart-area .cart-button a {
+  .right-side-cart-area .cart-button button {
     position: absolute;
     top: 0;
     right: 100%;
@@ -453,13 +460,13 @@ img {
     line-height: 80px;
     background-color: #f5f7f9; }
     @media only screen and (max-width: 767px) {
-      .right-side-cart-area .cart-button a {
+      .right-side-cart-area .cart-button button {
         width: 50px;
         height: 50px;
         line-height: 50px; } }
-    .right-side-cart-area .cart-button a img {
+    .right-side-cart-area .cart-button button img {
       max-width: 20px; }
-    .right-side-cart-area .cart-button a span {
+    .right-side-cart-area .cart-button button span {
       font-family: "Ubuntu", sans-serif;
       font-size: 18px;
       color: #0315ff;
@@ -777,7 +784,7 @@ img {
         background-color: #dc0345; }
       .single-product-wrapper .product-img .product-badge.new-badge {
         background-color: #0315ff; }
-    .single-product-wrapper .product-img .product-favourite a {
+    .single-product-wrapper .product-img .product-favourite span {
       position: absolute;
       height: 25px;
       width: 45px;
@@ -792,7 +799,7 @@ img {
       text-align: center;
       opacity: 0;
       visibility: hidden; }
-      .single-product-wrapper .product-img .product-favourite a.active {
+      .single-product-wrapper .product-img .product-favourite span.active {
         opacity: 1;
         visibility: visible; }
   .single-product-wrapper .product-description {
@@ -844,7 +851,7 @@ img {
   .single-product-wrapper:hover .product-img .hover-img {
     opacity: 1;
     visibility: visible; }
-  .single-product-wrapper:hover .product-img .product-favourite a {
+  .single-product-wrapper:hover .product-img .product-favourite span {
     opacity: 1;
     visibility: visible; }
   .single-product-wrapper:hover .hover-content {
@@ -1201,14 +1208,14 @@ img {
   .widget .catagories-menu .sub-menu {
     margin-left: 15px;
     margin-bottom: 15px; }
-    .widget .catagories-menu .sub-menu li > a {
+    .widget .catagories-menu .sub-menu li > span {
       text-transform: capitalize;
       font-size: 14px;
       margin-bottom: 5px;
       display: block;
       font-weight: 300;
       color: #787878; }
-      .widget .catagories-menu .sub-menu li > a:hover {
+      .widget .catagories-menu .sub-menu li > span:hover {
         color: #0315ff; }
   .widget.price .ui-slider-handle {
     background-color: #000000;

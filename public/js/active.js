@@ -93,15 +93,15 @@
     }
 
     // :: Slider Range Price Active Code
-    $('.slider-range-price').each(function () {
+    window.$('.slider-range-price').each(function () {
         var min = jQuery(this).data('min');
         var max = jQuery(this).data('max');
         var unit = jQuery(this).data('unit');
         var value_min = jQuery(this).data('value-min');
         var value_max = jQuery(this).data('value-max');
         var label_result = jQuery(this).data('label-result');
-        var t = $(this);
-        $(this).slider({
+        var t = window.$(this);
+        window.$(this).slider({
             range: true,
             min: min,
             max: max,

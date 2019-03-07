@@ -1,0 +1,58 @@
+Night Mode
+
+* {
+    background-color: #232b2b;
+    color: white;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    color: white;
+}
+
+.h-100 {
+    background-color: transparent;
+}
+
+.h-100 h2 {
+    color: #414a4c;
+}
+
+.h-100 * {
+    background-color: transparent;
+    color: var(--white)
+}
+
+
+a * {
+    color: whitesmoke;
+}
+
+#headerSearch {
+    background-color: #232b2b;
+}
+
+#essenceNav * {
+    color: var(--white);
+}
+
+.bg-img {
+  all: initial;
+}
+
+.bg-img h2 {
+    color: whitesmoke;
+    padding-top: 20px;
+}
+
+.form-control {
+    background-color: black;
+    color: whitesmoke;
+}
+
+a * {
+    color: white;
+}
+
+#rightSideCart {
+    all: initial;
+}

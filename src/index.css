@@ -14,3 +14,20 @@
 .hidden {
     display: none;
 }
+
+.bootbox .modal-header {
+    flex-direction: row-reverse;
+}
+
+.favourite-area {
+    cursor: pointer;
+}
+
+.favourite-area img {
+    transform: rotateZ(45deg);
+
+}
+
+.nav-categories {
+    cursor: pointer;
+}
